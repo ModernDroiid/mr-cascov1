@@ -1,0 +1,126 @@
+/* ==========================================================================
+   MOVIMIENTO
+   Efectos de scroll. Todo vive aquí para poder quitarlo de un tirón.
+
+   - Apariciones: los elementos con [data-reveal] entran cuando llegan a la
+     pantalla (js/motion.js les pone .is-revealed). Solo se ocultan si <html>
+     tiene la clase .motion, que el script del <head> pone únicamente cuando
+     la persona no pidió menos movimiento.
+   - Scroll continuo: usa animation-timeline (CSS puro). Si el navegador no
+     lo soporta, simplemente no hay efecto.
+   - Las apariciones animan `transform`; el scroll continuo anima `translate`
+     y `scale`. Son propiedades distintas y se combinan sin pisarse.
+   ========================================================================== */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --reveal-duration: 900ms;
+  --reveal-step: 90ms; /* retraso entre hermanos de un [data-reveal-group] */
+}
+
+/* ---------- Apariciones ---------- */
+
+.motion [data-reveal] {
+  transition:
+    opacity var(--reveal-duration) var(--ease-out-expo),
+    transform var(--reveal-duration) var(--ease-out-expo),
+    clip-path 1200ms var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-i, 0) * var(--reveal-step));
+}
+
+.motion [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(2.25rem);
+}
+
+.motion [data-reveal="fade"]:not(.is-revealed) {
+  transform: none;
+}
+
+.motion [data-reveal="left"]:not(.is-revealed) {
+  transform: translateX(-3rem);
+}
+
+.motion [data-reveal="right"]:not(.is-revealed) {
+  transform: translateX(3rem);
+}
+
+.motion [data-reveal="scale"]:not(.is-revealed) {
+  transform: scale(0.88);
+  transform-origin: left bottom;
+}
+
+/* Telón: la foto se destapa de abajo hacia arriba mientras se aleja el zoom */
+.motion [data-reveal="clip"] {
+  clip-path: inset(-4rem);
+}
+
+.motion [data-reveal="clip"]:not(.is-revealed) {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(100% -4rem -4rem -4rem);
+}
+
+.motion [data-reveal="clip"] img {
+  transition: transform 1600ms var(--ease-out-expo);
+}
+
+.motion [data-reveal="clip"]:not(.is-revealed) img {
+  transform: scale(1.2);
+}
+
+/* ---------- Barra de progreso de lectura ---------- */
+
+.scroll-progress {
+  display: none;
+}
+
+/* ---------- Scroll continuo ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      height: 3px;
+      background: var(--color-accent);
+      transform-origin: 0 50%;
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* La foto del hero baja más lento que la página: parallax */
+    .hero__photo img {
+      scale: 1.15;
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+
+    /* El "MR. CASCO" gigante del pie entra deslizándose con el scroll */
+    .site-footer__brand {
+      animation: brand-slide linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+@keyframes progress-grow {
+  from { scale: 0 1; }
+  to { scale: 1 1; }
+}
+
+@keyframes hero-drift {
+  from { translate: 0 0; }
+  to { translate: 0 12%; }
+}
+
+@keyframes brand-slide {
+  from { translate: -18% 0; opacity: 0.15; }
+  to { translate: 0 0; opacity: 1; }
+}

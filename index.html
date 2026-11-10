@@ -25,14 +25,27 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/motion.css">
+
+  <!-- Efectos de scroll: se activan antes de pintar para evitar parpadeos.
+       Si js/motion.js no responde en 2,5 s, se apagan y todo queda visible. -->
+  <script>
+    (function (root) {
+      if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      root.classList.add("motion");
+      setTimeout(function () { if (!window.__motionReady) root.classList.remove("motion"); }, 2500);
+    })(document.documentElement);
+  </script>
 
   <!-- Scripts clásicos (no módulos) para que el sitio también abra con doble clic -->
   <script src="js/config.js" defer></script>
   <script src="js/main.js" defer></script>
+  <script src="js/motion.js" defer></script>
 </head>
 
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
 
   <!-- Sprite de íconos. Se usa con <svg><use href="#icon-nombre"></use></svg> -->
   <svg class="visually-hidden" aria-hidden="true" focusable="false">
@@ -77,12 +90,12 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="inicio" aria-labelledby="hero-title">
       <div class="container hero__grid">
-        <div class="hero__content">
-          <p class="eyebrow">Sótano 1 · C.C. Titán Plaza · Bogotá</p>
-          <h1 class="hero__title" id="hero-title">Cada kilómetro se queda en tu casco.</h1>
-          <p class="hero__lead">Lo desarmamos, lo lavamos por dentro y lo desinfectamos. El primer spa premium para cascos en Colombia.</p>
+        <div class="hero__content" data-reveal-group>
+          <p class="eyebrow" data-reveal>Sótano 1 · C.C. Titán Plaza · Bogotá</p>
+          <h1 class="hero__title" id="hero-title" data-reveal>Cada kilómetro se queda en tu casco.</h1>
+          <p class="hero__lead" data-reveal>Lo desarmamos, lo lavamos por dentro y lo desinfectamos. El primer spa premium para cascos en Colombia.</p>
 
-          <div class="btn-group">
+          <div class="btn-group" data-reveal>
             <a class="btn btn--primary" href="#ubicacion" data-whatsapp>
               Agendar por WhatsApp
               <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
@@ -90,7 +103,7 @@
             <a class="btn btn--outline" href="#proceso">Ver el proceso</a>
           </div>
 
-          <dl class="hero__stats">
+          <dl class="hero__stats" data-reveal>
             <div class="stat">
               <dt class="stat__label">Lavado premium, COP</dt>
               <dd class="stat__value stat__value--accent">$36.900</dd>
@@ -107,7 +120,7 @@
           </dl>
         </div>
 
-        <div class="hero__media">
+        <div class="hero__media" data-reveal="clip">
           <div class="hero__photo">
             <img
               src="assets/img/shaft-pro-antes-despues.jpg"
@@ -132,25 +145,25 @@
     <!-- ============ SERVICIO: EL PROBLEMA ============ -->
     <section class="section section--paper" id="servicio" aria-labelledby="servicio-title">
       <div class="container">
-        <header class="dirt__header">
-          <h2 class="heading" id="servicio-title">Lo que tu casco<br>recoge cada día</h2>
-          <p class="dirt__intro">Un casco se usa a diario y casi nunca se lava por dentro. Las almohadillas guardan todo lo que no se ve.</p>
+        <header class="dirt__header" data-reveal-group>
+          <h2 class="heading" id="servicio-title" data-reveal>Lo que tu casco<br>recoge cada día</h2>
+          <p class="dirt__intro" data-reveal>Un casco se usa a diario y casi nunca se lava por dentro. Las almohadillas guardan todo lo que no se ve.</p>
         </header>
 
-        <ol class="dirt__list">
-          <li class="dirt__item">
+        <ol class="dirt__list" data-reveal-group>
+          <li class="dirt__item" data-reveal>
             <h3 class="dirt__title">Sudor</h3>
             <p>Se absorbe en la espuma y deja el olor que ya conoces.</p>
           </li>
-          <li class="dirt__item">
+          <li class="dirt__item" data-reveal>
             <h3 class="dirt__title">Grasa facial</h3>
             <p>Se pega a las mejillas del casco y al visor por dentro.</p>
           </li>
-          <li class="dirt__item">
+          <li class="dirt__item" data-reveal>
             <h3 class="dirt__title">Polvo</h3>
             <p>Entra por las ventilaciones y se queda en el forro.</p>
           </li>
-          <li class="dirt__item">
+          <li class="dirt__item" data-reveal>
             <h3 class="dirt__title">Contaminación</h3>
             <p>El humo de la ciudad que respiras rodando, acumulado.</p>
           </li>
@@ -161,26 +174,26 @@
     <!-- ============ PROCESO ============ -->
     <section class="section section--ruled" id="proceso" aria-labelledby="proceso-title">
       <div class="container">
-        <header class="process__header">
-          <p class="eyebrow eyebrow--accent">El protocolo</p>
-          <h2 class="heading" id="proceso-title">Cuatro pasos, siempre<br>los mismos</h2>
-          <p class="process__intro">Cada casco pasa por el mismo protocolo, sin importar la marca ni el modelo.</p>
+        <header class="process__header" data-reveal-group>
+          <p class="eyebrow eyebrow--accent" data-reveal>El protocolo</p>
+          <h2 class="heading" id="proceso-title" data-reveal>Cuatro pasos, siempre<br>los mismos</h2>
+          <p class="process__intro" data-reveal>Cada casco pasa por el mismo protocolo, sin importar la marca ni el modelo.</p>
         </header>
 
-        <ol class="process__steps">
-          <li class="step">
+        <ol class="process__steps" data-reveal-group>
+          <li class="step" data-reveal>
             <h3 class="step__title">Desmontaje completo</h3>
             <p class="step__text">Retiramos almohadillas, mejillas y componentes internos, pieza por pieza.</p>
           </li>
-          <li class="step">
+          <li class="step" data-reveal>
             <h3 class="step__title">Lavado interno</h3>
             <p class="step__text">Productos especializados que sacan el olor y las bacterias del forro.</p>
           </li>
-          <li class="step">
+          <li class="step" data-reveal>
             <h3 class="step__title">Desinfección profunda</h3>
             <p class="step__text">Un segundo tratamiento y control de calidad antes de armarlo.</p>
           </li>
-          <li class="step">
+          <li class="step" data-reveal>
             <h3 class="step__title">Inspección y entrega</h3>
             <p class="step__text">Revisamos el estado general del casco y te lo entregamos armado.</p>
           </li>
@@ -191,13 +204,13 @@
     <!-- ============ ANTES Y DESPUÉS ============ -->
     <section class="section section--ruled" id="resultados" aria-labelledby="resultados-title">
       <div class="container">
-        <header class="results__header">
+        <header class="results__header" data-reveal>
           <h2 class="heading" id="resultados-title">Antes y después</h2>
           <a class="text-link" href="https://www.instagram.com/mrcasco.co/" target="_blank" rel="noopener">Más resultados en @mrcasco.co</a>
         </header>
 
-        <div class="results__grid">
-          <figure class="result">
+        <div class="results__grid" data-reveal-group>
+          <figure class="result" data-reveal>
             <div class="result__pair">
               <div class="result__shot">
                 <img src="assets/img/schuberth-e1-antes.jpg" width="880" height="660" loading="lazy" decoding="async" alt="Casco Schuberth E1 blanco y naranja antes del lavado, cubierto de polvo">
@@ -211,7 +224,7 @@
             <figcaption class="result__caption">Schuberth E1</figcaption>
           </figure>
 
-          <figure class="result">
+          <figure class="result" data-reveal>
             <div class="result__pair">
               <div class="result__shot">
                 <img src="assets/img/casco-retro-antes.jpg" width="880" height="660" loading="lazy" decoding="async" alt="Casco retro con gafas y franja a cuadros antes del lavado, con barro seco">
@@ -226,7 +239,7 @@
             <figcaption class="result__caption">Casco retro con gafas</figcaption>
           </figure>
 
-          <figure class="result">
+          <figure class="result" data-reveal>
             <div class="result__pair">
               <div class="result__shot">
                 <img src="assets/img/hjc-ds-x1-antes.jpg" width="880" height="660" loading="lazy" decoding="async" alt="Casco HJC DS-X1 negro antes del lavado, con el visor manchado de barro">
@@ -246,13 +259,14 @@
     <!-- ============ PRECIO ============ -->
     <section class="section section--accent" id="precio" aria-labelledby="precio-title">
       <div class="container pricing">
-        <div class="pricing__summary">
-          <p class="eyebrow" id="precio-title">Un solo precio</p>
-          <p class="pricing__amount">$36.900</p>
-          <p class="pricing__note">Lavado premium completo, en pesos colombianos.<br>Sin cobros extra por talla ni por marca.</p>
+        <div class="pricing__summary" data-reveal-group>
+          <p class="eyebrow" id="precio-title" data-reveal>Un solo precio</p>
+          <!-- Al aparecer, el precio cuenta desde $0 (js/motion.js) -->
+          <p class="pricing__amount" data-reveal="scale" data-count="36900" data-count-prefix="$">$36.900</p>
+          <p class="pricing__note" data-reveal>Lavado premium completo, en pesos colombianos.<br>Sin cobros extra por talla ni por marca.</p>
         </div>
 
-        <div class="pricing__card">
+        <div class="pricing__card" data-reveal="right">
           <h3 class="pricing__card-title">Incluye</h3>
           <ul class="checklist">
             <li class="checklist__item">
@@ -280,19 +294,19 @@
     <!-- ============ TESTIMONIOS ============ -->
     <section class="section" id="testimonios" aria-labelledby="testimonios-title">
       <div class="container">
-        <h2 class="heading" id="testimonios-title">Lo dicen los moteros</h2>
+        <h2 class="heading" id="testimonios-title" data-reveal>Lo dicen los moteros</h2>
 
         <!-- PENDIENTE: testimonios reales, tomados de las historias destacadas -->
-        <div class="testimonials">
-          <figure class="testimonial">
+        <div class="testimonials" data-reveal-group>
+          <figure class="testimonial" data-reveal>
             <blockquote class="testimonial__quote">[Testimonio real de un cliente, tomado de las historias destacadas]</blockquote>
             <figcaption class="testimonial__author">[Nombre] · [Moto]</figcaption>
           </figure>
-          <figure class="testimonial">
+          <figure class="testimonial" data-reveal>
             <blockquote class="testimonial__quote">[Testimonio real de un cliente, tomado de las historias destacadas]</blockquote>
             <figcaption class="testimonial__author">[Nombre] · [Moto]</figcaption>
           </figure>
-          <figure class="testimonial">
+          <figure class="testimonial" data-reveal>
             <blockquote class="testimonial__quote">[Testimonio real de un cliente, tomado de las historias destacadas]</blockquote>
             <figcaption class="testimonial__author">[Nombre] · [Moto]</figcaption>
           </figure>
@@ -303,7 +317,7 @@
     <!-- ============ UBICACIÓN ============ -->
     <section class="section section--ruled" id="ubicacion" aria-labelledby="ubicacion-title">
       <div class="container location">
-        <div class="location__info">
+        <div class="location__info" data-reveal="left">
           <h2 class="heading" id="ubicacion-title">Llegas en la moto<br>y nos encuentras</h2>
 
           <dl class="details">
@@ -328,7 +342,7 @@
           </div>
         </div>
 
-        <div class="media location__map">
+        <div class="media location__map" data-reveal="clip">
           <p class="media__label">[MAPA · Google Maps de Titán Plaza]</p>
           <iframe
             class="location__map-frame"
@@ -346,7 +360,7 @@
     <div class="container">
       <div class="site-footer__top">
         <p class="site-footer__brand">Mr. Casco</p>
-        <a class="btn btn--primary btn--large" href="#ubicacion" data-whatsapp>Agenda tu primera lavada</a>
+        <a class="btn btn--primary btn--large" href="#ubicacion" data-whatsapp data-reveal>Agenda tu primera lavada</a>
       </div>
       <div class="site-footer__bottom">
         <p>Spa premium para cascos · Titán Plaza, Bogotá</p>
